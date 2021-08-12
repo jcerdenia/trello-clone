@@ -1,6 +1,7 @@
 import { Action } from './actions';
 import { nanoid } from 'nanoid';
 import { findItemIndexById, moveItem } from '../utils/arrayUtils';
+import { DragItem } from '../DragItem';
 
 export const appStateReducer = (draft: AppState, action: Action): AppState | void => {
   // state is named draft, so we know we can mutate it.
@@ -43,6 +44,11 @@ export const appStateReducer = (draft: AppState, action: Action): AppState | voi
       break;
     }
 
+    case "SET_DRAGGED_ITEM": {
+      draft.draggedItem = action.payload;
+      break;
+    }
+
     default: {
       break;
     }
@@ -62,4 +68,5 @@ export type List = {
 
 export type AppState = {
   lists: List[];
+  draggedItem: DragItem | null;
 }
