@@ -2,26 +2,11 @@ import { Action } from './actions';
 import { nanoid } from 'nanoid';
 import { findItemIndexById } from '../utils/arrayUtils';
 
-export type Task = {
-  id: string;
-  text: string;
-}
-
-export type List = {
-  id: string;
-  text: string;
-  tasks: Task[];
-}
-
-export type AppState = {
-  lists: List[];
-}
-
 export const appStateReducer = (draft: AppState, action: Action): AppState | void => {
   // state is named draft, so we know we can mutate it.
   switch (action.type) {
     case "ADD_LIST": {
-      /* Normally we would do it like this:
+      /* Normally we would do something like this:
       return {
         ...state, // Use spread operator to get all fields from previous state.
         lists: [ // Then set lists field to be a new array
@@ -29,7 +14,9 @@ export const appStateReducer = (draft: AppState, action: Action): AppState | voi
           { id: nanoid(), text: action.payload, tasks: [] } // plus the new item
         ]
       } */
+
       // But ImmerJS lets us mutate an object, and it will create a new object instance from it.
+      // So just push the new item into the existing list in the "draft" state.
       draft.lists.push({
         id: nanoid(),
         text: action.payload,
@@ -52,4 +39,19 @@ export const appStateReducer = (draft: AppState, action: Action): AppState | voi
       break;
     }
   }
+}
+
+export type Task = {
+  id: string;
+  text: string;
+}
+
+export type List = {
+  id: string;
+  text: string;
+  tasks: Task[];
+}
+
+export type AppState = {
+  lists: List[];
 }
