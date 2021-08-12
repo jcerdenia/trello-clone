@@ -29,7 +29,7 @@ export const useAppState = () => {
   return useContext(AppStateContext);
 }
 
-// Hard coded for now:
+// Dummy data representing initial state:
 const appData: AppState = {
   lists: [
     {

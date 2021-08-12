@@ -20,7 +20,7 @@ export const Column: FC<ColumnProps> = ({ text, id }: ColumnProps) => {
       })}
 
       <AddNewItem 
-        toggleButtonText='➕ Add another task'
+        toggleButtonText='+ Add another task'
         onAdd={(text) => dispatch(addTask(text.valueOf(), id))}
         dark
       />

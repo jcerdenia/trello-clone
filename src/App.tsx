@@ -11,11 +11,13 @@ export const App = () => {
   return (
     <AppContainer>
       {lists.map((list) => {
-        return (<Column text={list.text} key={list.id} id={list.id} />);
+        return (
+        <Column text={list.text} key={list.id} id={list.id} />
+        );
       })}
 
       <AddNewItem 
-        toggleButtonText="➕ Add another list" 
+        toggleButtonText="+ Add another list" 
         onAdd={(text) => dispatch(addList(text.valueOf()))}
       />
     </AppContainer>

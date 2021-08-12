@@ -1,6 +1,6 @@
 import { Action } from './actions';
 import { nanoid } from 'nanoid';
-import { findItemIndexById } from '../utils/arrayUtils';
+import { findItemIndexById, moveItem } from '../utils/arrayUtils';
 
 export const appStateReducer = (draft: AppState, action: Action): AppState | void => {
   // state is named draft, so we know we can mutate it.
