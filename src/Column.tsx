@@ -3,14 +3,12 @@ import React, { FC } from 'react';
 import { AddNewItem } from './AddNewItem';
 import { useAppState } from './state/AppStateContext';
 import { Card } from './Card';
+import { addTask } from './state/actions';
 
-type ColumnProps = {
-  text: string;
-  id: string;
-}
-
+// Represents one group of tasks.
+// Contains a task list and an option to add a new task.
 export const Column: FC<ColumnProps> = ({ text, id }: ColumnProps) => {
-  const { getTasksByListId } = useAppState();
+  const { getTasksByListId, dispatch } = useAppState();
   const tasks = getTasksByListId(id);
 
   return (
@@ -23,9 +21,14 @@ export const Column: FC<ColumnProps> = ({ text, id }: ColumnProps) => {
 
       <AddNewItem 
         toggleButtonText='➕ Add another task'
-        onAdd={console.log}
+        onAdd={(text) => dispatch(addTask(text.valueOf(), id))}
         dark
       />
     </ColumnContainer>
   );
+}
+
+type ColumnProps = {
+  text: string;
+  id: string;
 }

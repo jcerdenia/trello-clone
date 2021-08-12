@@ -2,18 +2,14 @@ import { useState } from 'react';
 import { AddItemButton } from './styles';
 import { NewItemForm } from './NewItemForm';
 
-type AddNewItemProps = {
-  onAdd(text: String): void;
-  toggleButtonText: string;
-  dark?: boolean;
-}
-
+// Represents an option to add a new item in a list.
+// By default, contains a button.
+// Pressing the button shows a form to input a new item, plus a button to confirm.
 export const AddNewItem = (props: AddNewItemProps) => {
   const [showForm, setShowForm] = useState(false);
   const { onAdd, toggleButtonText, dark } = props;
 
   if (showForm) {
-    // Show item creation form here
     return (
       <NewItemForm onAdd={text => {
         onAdd(text)
@@ -27,4 +23,10 @@ export const AddNewItem = (props: AddNewItemProps) => {
       {toggleButtonText}
     </AddItemButton>
   );
+}
+
+type AddNewItemProps = {
+  onAdd(text: String): void;
+  toggleButtonText: string;
+  dark?: boolean;
 }

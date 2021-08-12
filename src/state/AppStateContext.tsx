@@ -1,16 +1,25 @@
-import { createContext, useContext, FC } from 'react';
+import { createContext, useContext, FC, Dispatch } from 'react';
+import { useImmerReducer } from 'use-immer';
+import { Task, List, AppState, appStateReducer } from './appStateReducer';
+import { Action } from './actions';
+
+type AppStateContextProps = {
+  lists: List[];
+  getTasksByListId(id: string): Task[];
+  dispatch: Dispatch<Action>;
+}
 
 const AppStateContext = createContext<AppStateContextProps>({} as AppStateContextProps);
 
 export const AppStateProvider: FC = ({ children }) => {
-  const { lists } = appData;
-
+  const [state, dispatch] = useImmerReducer(appStateReducer, appData);
+  const { lists } = state;
   const getTasksByListId = (id: string) => {
     return lists.find((list) => list.id === id)?.tasks || []
   }
 
   return (
-    <AppStateContext.Provider value={{ lists, getTasksByListId }}>
+    <AppStateContext.Provider value={{ lists, getTasksByListId, dispatch }}>
       {children}
     </AppStateContext.Provider>
   );
@@ -20,6 +29,7 @@ export const useAppState = () => {
   return useContext(AppStateContext);
 }
 
+// Hard coded for now:
 const appData: AppState = {
   lists: [
     {
@@ -38,24 +48,4 @@ const appData: AppState = {
       tasks: [{ id: "c2", text: "Begin to use static typing" }]
     }
   ]
-}
-
-type Task = {
-  id: string;
-  text: string;
-}
-
-type List = {
-  id: string;
-  text: string;
-  tasks: Task[];
-}
-
-type AppStateContextProps = {
-  lists: List[];
-  getTasksByListId(id: string): Task[];
-}
-
-export type AppState = {
-  lists: List[];
 }

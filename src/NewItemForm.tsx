@@ -2,10 +2,8 @@ import React, { useState } from 'react';
 import { NewItemFormContainer, NewItemButton, NewItemInput } from './styles';
 import { useFocus } from './utils/useFocus';
 
-type NewItemFormProps = {
-  onAdd(text: string): void;
-}
-
+// Form for inputting a new item. 
+// Contains the form itself plus a button to confirm.
 export const NewItemForm = ({ onAdd }: NewItemFormProps) => {
   const [text, setText] = useState('');
   const inputRef = useFocus();
@@ -30,4 +28,8 @@ export const NewItemForm = ({ onAdd }: NewItemFormProps) => {
       </NewItemButton>
     </NewItemFormContainer>
   );
+}
+
+type NewItemFormProps = {
+  onAdd(text: string): void;
 }
