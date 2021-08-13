@@ -8,9 +8,15 @@ export const NewItemForm = ({ onAdd }: NewItemFormProps) => {
   const [text, setText] = useState('');
   const inputRef = useFocus();
 
+  const protectedAdd = (text: string) => {
+    if (text.length > 0) {
+      onAdd(text);
+    }
+  }
+
   const handleAddText = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      onAdd(text);
+      protectedAdd(text);
     }
   }
 
@@ -23,7 +29,7 @@ export const NewItemForm = ({ onAdd }: NewItemFormProps) => {
         onKeyPress={handleAddText}
       />
       
-      <NewItemButton onClick={() => onAdd(text)}>
+      <NewItemButton onClick={() => protectedAdd(text)}>
         Create
       </NewItemButton>
     </NewItemFormContainer>

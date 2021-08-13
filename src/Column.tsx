@@ -10,13 +10,13 @@ import { isHidden } from './utils/isHidden'
 
 // Represents one group of tasks.
 // Contains a task list and an option to add a new task.
-export const Column: FC<ColumnProps> = ({ text, id }: ColumnProps) => {
+export const Column: FC<ColumnProps> = ({ text, id, isPreview }: ColumnProps) => {
   const { draggedItem, getTasksByListId, dispatch } = useAppState();
   const tasks = getTasksByListId(id);
   const ref = useRef<HTMLDivElement>(null);
   const { drag } = useItemDrag({ type: "COLUMN", id, text });
 
-  const [_, drop] = useDrop({
+  const [, drop] = useDrop({
     accept: "COLUMN",
     hover() {
       if (!draggedItem) {
@@ -38,7 +38,11 @@ export const Column: FC<ColumnProps> = ({ text, id }: ColumnProps) => {
     // We need a ref to specify the drag target. We know it will be a div element.
     // We manually provide HTMLDivElement type to useRef call, then provide it
     // as ref prop to ColumnContainer.
-    <ColumnContainer ref={ref} isHidden={isHidden(draggedItem, "COLUMN", id)}>
+    <ColumnContainer 
+      isPreview={isPreview} 
+      ref={ref} 
+      isHidden={isHidden(draggedItem, "COLUMN", id, isPreview)}
+    >
       <ColumnTitle>{text}</ColumnTitle>
       
       {tasks.map((task) => {
@@ -57,4 +61,5 @@ export const Column: FC<ColumnProps> = ({ text, id }: ColumnProps) => {
 type ColumnProps = {
   text: string;
   id: string;
+  isPreview?: boolean;
 }
