@@ -17,17 +17,13 @@ export const Column: FC<ColumnProps> = ({ text, id, isPreview }: ColumnProps) =>
   const { drag } = useItemDrag({ type: "COLUMN", id, text });
 
   const [, drop] = useDrop({
-    accept: "COLUMN",
+    accept: 'COLUMN',
     hover() {
-      if (!draggedItem) {
-        return;
-      }
+      if (!draggedItem) return;
       if (draggedItem.type === "COLUMN") {
-        if (draggedItem.id === id) {
-          return;
-        }
-
-        dispatch(moveList(draggedItem.id, id));
+        if (draggedItem.id === id) return;
+        const action = moveList(draggedItem.id, id);
+        dispatch(action);
       }
     }
   });
@@ -46,7 +42,7 @@ export const Column: FC<ColumnProps> = ({ text, id, isPreview }: ColumnProps) =>
       <ColumnTitle>{text}</ColumnTitle>
       
       {tasks.map((task) => {
-        return (<Card text={task.text} key={task.id} id={task.id} />);
+        return (<Card id={task.id} columnId={id} text={task.text} key={task.id} />);
       })}
 
       <AddNewItem 

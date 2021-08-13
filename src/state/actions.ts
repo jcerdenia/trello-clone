@@ -23,6 +23,18 @@ export const moveList = (draggedId: string, hoverId: string): Action => {
   }
 }
 
+export const moveTask = (
+  draggedItemId: string,
+  hoveredItemId: string | null,
+  sourceColumnId: string,
+  targetColumnId: string
+): Action => {
+  return {
+    type: "MOVE_TASK",
+    payload: { draggedItemId, hoveredItemId, sourceColumnId, targetColumnId }
+  }
+}
+
 export const setDraggedItem = (draggedItem: DragItem | null): Action => {
   return {
     type: "SET_DRAGGED_ITEM",
@@ -47,10 +59,20 @@ interface MoveListAction {
   payload: { draggedId: string, hoverId: string }
 }
 
+interface MoveTaskAction {
+  type: "MOVE_TASK";
+  payload: { 
+    draggedItemId: string;
+    hoveredItemId: string | null;
+    sourceColumnId: string;
+    targetColumnId: string;
+  }
+}
+
 interface SetDraggedItemAction {
   type: "SET_DRAGGED_ITEM";
   payload: DragItem | null
 }
 
  // type Action will resolve to one of the given types:
-export type Action = AddListAction | AddTaskAction | MoveListAction | SetDraggedItemAction;
+export type Action = AddListAction | AddTaskAction | MoveListAction | MoveTaskAction | SetDraggedItemAction;
