@@ -18,8 +18,8 @@ export const Card = ({ text, id, columnId, isPreview }: CardProps) => {
       if (!draggedItem) return;
       if (draggedItem.type !== 'CARD') return;
       if (draggedItem.id === id) return;
-      const action = moveTask(draggedItem.id, id, draggedItem.columnId, columnId);
-      dispatch(action);
+      dispatch(moveTask(draggedItem.id, id, draggedItem.columnId, columnId));
+      //dispatch(setDraggedItem({ ...draggedItem, columnId: id }));
     }
   });
 

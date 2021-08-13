@@ -4,9 +4,10 @@ import { useDrop } from 'react-dnd';
 import { AddNewItem } from './AddNewItem';
 import { useAppState } from './state/AppStateContext';
 import { Card } from './Card';
-import { addTask, moveList } from './state/actions';
+import { addTask, moveList, moveTask, setDraggedItem } from './state/actions';
 import { useItemDrag } from './utils/useItemDrag'
 import { isHidden } from './utils/isHidden'
+import { DragItem, CardDragItem } from './DragItem';
 
 // Represents one group of tasks.
 // Contains a task list and an option to add a new task.
@@ -17,13 +18,20 @@ export const Column: FC<ColumnProps> = ({ text, id, isPreview }: ColumnProps) =>
   const { drag } = useItemDrag({ type: "COLUMN", id, text });
 
   const [, drop] = useDrop({
-    accept: 'COLUMN',
-    hover() {
-      if (!draggedItem) return;
-      if (draggedItem.type === "COLUMN") {
-        if (draggedItem.id === id) return;
-        const action = moveList(draggedItem.id, id);
-        dispatch(action);
+    accept: ['COLUMN', 'CARD'],
+    hover(item: DragItem) {
+      if (item.type === 'COLUMN') {
+        if (!draggedItem) return;
+        if (draggedItem.type === "COLUMN") {
+          if (draggedItem.id === id) return;
+          dispatch(moveList(draggedItem.id, id));
+        }
+      } else {
+        const cardDraggedItem = draggedItem as CardDragItem;
+        if (cardDraggedItem.columnId === id) return;
+        if (tasks.length) return;
+        dispatch(moveTask(cardDraggedItem.id, null, cardDraggedItem.columnId, id));
+        dispatch(setDraggedItem({ ...cardDraggedItem, columnId: id }));
       }
     }
   });
