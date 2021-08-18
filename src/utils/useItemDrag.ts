@@ -8,15 +8,15 @@ import { getEmptyImage } from 'react-dnd-html5-backend';
 export const useItemDrag = (item: DragItem) => {
   const { dispatch } = useAppState();
   const [, drag, preview] = useDrag({
-    // When we start dragging, we store the item in our app state.
-    // When we stop, we rest it to null.
-    type: item.type, // this will be CARD or COLUMN
+    type: item.type, // this is either CARD or COLUMN.
+    // When we start dragging, we store the item in our app state
+    // by dispatching the setDraggedItem action.
     item: () => {
-      dispatch(setDraggedItem(item));
+      dispatch(setDraggedItem(item)); 
       return item;
-      // returns dragged item object and dispatches setDraggedItem action
     },
-    end: () => dispatch(setDraggedItem(null)) // called when item is
+    // After dragging, we reset draggedItem in the app state to null.
+    end: () => dispatch(setDraggedItem(null))
   });
 
   useEffect(() => {

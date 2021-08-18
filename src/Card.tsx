@@ -14,12 +14,11 @@ export const Card = ({ text, id, columnId, isPreview }: CardProps) => {
 
   const [, drop] = useDrop({
     accept: 'CARD',
-    hover() {
+    drop() {
       if (!draggedItem) return;
       if (draggedItem.type !== 'CARD') return;
       if (draggedItem.id === id) return;
       dispatch(moveTask(draggedItem.id, id, draggedItem.columnId, columnId));
-      //dispatch(setDraggedItem({ ...draggedItem, columnId: id }));
     }
   });
 
